@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pessoas Próximas de Você</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #localizacao {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pessoas Próximas de Você</h1>
+    <button onclick="getLocation()">Verificar Pessoas Próximas</button>
+
+    <p id="localizacao"></p>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else { 
+                document.getElementById("localizacao").innerHTML = "Geolocalização não é suportada por este navegador.";
+            }
+        }
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            // Simula a verificação de pessoas próximas
+            document.getElementById("localizacao").innerHTML = 
+                "Verificando pessoas próximas... <br> Latitude: " + latitude + 
+                "<br> Longitude: " + longitude;
+
+            // Aqui você pode adicionar uma função de enviar esses dados para um servidor
+            sendLocation(latitude, longitude);
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("localizacao").innerHTML = "Permissão de Geolocalização negada.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("localizacao").innerHTML = "Localização indisponível.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("localizacao").innerHTML = "Tempo esgotado para obter a localização.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("localizacao").innerHTML = "Ocorreu um erro desconhecido.";
+                    break;
+            }
+        }
+
+        function sendLocation(latitude, longitude) {
+            // Envia os dados para o servidor (aqui você deve integrar com um backend)
+            console.log("Enviando localização para o servidor: ", latitude, longitude);
+        }
+    </script>
+</body>
+</html>
